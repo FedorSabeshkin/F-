@@ -10,4 +10,4 @@ let rec sum = function
 
 let rec sum2 = function 
  | (m,0) -> m 
- | (m,n) -> m + sum2(m-1)
+ | (m,n) -> m + n + sum2(m, n - 1)
