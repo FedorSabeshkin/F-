@@ -1,9 +1,11 @@
 let notDivisible (n, m) = m % n = 0
 
 
-let prime n =
-    let rec notDiv = function
-     | (n, 0) | (n, 1) -> true
-     | (n, m) -> (n % m <> 0) && notDiv(n, m - 1)
-    let maxDiv = int(System.Math.Sqrt(float(n)))
-    notDiv(n, maxDiv) 
+let rec check_rec = function
+ | (n, m) when n < 1 -> false
+ | (n, 1) -> true
+ | (n, m) when n = m -> true && (check_rec (n, m-1))
+ | (n, m) -> ((n % m) <> 0) && (check_rec (n, m-1))
+ 
+let prime = function
+ | n -> check_rec (n, n)
