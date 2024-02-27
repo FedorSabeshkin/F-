@@ -1,5 +1,12 @@
+let rec upto_with_accum = function
+  | (1, accummulator) -> 1 :: accummulator
+  | (n, accummulator) -> 
+    let updatedAccummulator = n :: accummulator
+    upto_with_accum(n-1, updatedAccummulator)
+
 // upto n = [1; 2; ...; n]
-let rec upto = 
+let rec upto = function
+  | n -> upto_with_accum (n, [])
 
 
 let rec dnto_with_accum = function
