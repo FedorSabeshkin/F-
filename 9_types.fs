@@ -30,21 +30,23 @@ let (.+.) x y =
     let goldAmount = a + d + silverSum/silver_per_gold
     (goldAmount, silverAmount, copperAmount)
 
-let (.+) x y =
-    let (xr, xi) = x
-    let (yr, yi) = y
-    (xr + yr, xi + yi)
-
-let (.-) x y =
-    let (yr, yi) = y
-    x .+ (-yr, -yi)
-
-let (.*) x y =
-    let (xr, xi) = x
-    let (yr, yi) = y
-    (xr * yr - xi * yi, xr * yi + xi * yr)
+let (.+) x y = 
+    let (a, b) = x
+    let (c, d) = y
+	(a + c, b + d)
+	
+	
+let (.-) x y = 
+    let (a, b) = x
+    let (c, d) = y
+	(a - c, b - d)
+	
+let (.*) x y = 
+    let (a, b) = x
+    let (c, d) = y
+	(a*c - b*d, b*c + a*d)
 
 let (./) x y =
     let (yr, yi) = y
-    let y2 = yr * yr + yi * yi
-    x .* (yr / y2, -yi / y2)
+    let y2 = (yr*yr + yi * yi)
+    x .* (yr/y2, - yi/y2)
