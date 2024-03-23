@@ -1,29 +1,34 @@
 let copper_per_silver = 12
 let silver_per_gold = 20
+let to_copper = function
+  | (a, b, c) -> (a*silver_per_gold + b) * copper_per_silver + c
 
-let divmod (x, y) =
-    let (q, r) = (x / y, x % y)
-    if r >= 0 then
-        (q, r)
-    else
-        (q - 1, r + y)
-
-let norm_money x =
-    let (g, s, c) = x
-    let (sa, c1) = divmod(c, copper_per_silver)
-    let (ga, s1) = divmod(s + sa, silver_per_gold)
-    (g + ga, s1, c1)
-
-
-let (.+.) x y =
-    let (xg, xs, xc) = x
-    let (yg, ys, yc) = y
-    norm_money(xg + yg, xs + ys, xc + yc)
+let copper_to_full_format_money = function
+  | copper -> let copperAmount = copper % copper_per_silver
+              let silverFromcopper = copper / copper_per_silver
+              let silverAmount = silverFromcopper % silver_per_gold
+              let goldAmount = silverAmount / silver_per_gold
+              (goldAmount, silverAmount, copperAmount)
 
 let (.-.) x y =
-    let (xg, xs, xc) = x
-    let (yg, ys, yc) = y
-    norm_money(xg - yg, xs - ys, xc - yc)
+    let (a, b, c) = x
+    let (d, e, g) = y
+    let copperAmount_first = to_copper (a, b, c)
+    let copperAmount_second = to_copper (d, e, g)
+    let copperResult = copperAmount_first - copperAmount_second
+    copper_to_full_format_money copperResult
+
+let (.+.) x y =
+    // nice pattern
+    let (a, b, c) = x
+    let (d, e, g) = y
+    
+    let cooperSum = c + g
+    let copperAmount = cooperSum % copper_per_silver
+    let silverSum = b + e + cooperSum/copper_per_silver
+    let silverAmount = silverSum % silver_per_gold
+    let goldAmount = a + d + silverSum/silver_per_gold
+    (goldAmount, silverAmount, copperAmount)
 
 let (.+) x y =
     let (xr, xi) = x
