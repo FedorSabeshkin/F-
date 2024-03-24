@@ -1,7 +1,16 @@
 type TimeOfDay = { hours: int; minutes: int; f: string }
 
-let time24 = function
- | {hours = h; minutes = m; f = "PM"} -> {hours = h + 12; minutes = m; f = ""}
- | {hours = h; minutes = m; f = _} -> {hours = h; minutes = m; f = ""}
-
-let (.>.) x y = time24(x) > time24(y)
+let (.>.) x y = 
+    let timeOfDay_first = x
+    let timeOfDay_second = y
+    if (String.Equals(timeOfDay_first.f, timeOfDay_second.f) && timeOfDay_first.hours > timeOfDay_second.hours)
+    then true
+    else
+      if (String.Equals(timeOfDay_first.f, timeOfDay_second.f) 
+        && timeOfDay_first.hours = timeOfDay_second.hours
+        && timeOfDay_first.minutes > timeOfDay_second.minutes)
+      then true
+      else
+        if (String.Equals(timeOfDay_first.f,"PM") && String.Equals(timeOfDay_second.f, "AM"))
+        then true
+        else false
