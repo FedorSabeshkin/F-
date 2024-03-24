@@ -4,10 +4,10 @@ type F =
 
 type TimeOfDay = { hours : int; minutes : int; f: F }
 
-let shift = function
- | AM -> 0
- | PM -> 12
 
-let total_minutes (x: TimeOfDay) = (x.hours + shift(x.f)) * 60 + x.minutes
+let to_24_format = function
+  | {hours = h; minutes = m; f = PM} -> {hours = h + 12; minutes = m; f = AM}
+  | {hours = h; minutes = m; f = AM} -> {hours = h; minutes = m; f = AM}
 
-let (.>.) x y = total_minutes(x) > total_minutes(y)
+let (.>.) x y = 
+    (to_24_format x) > (to_24_format y)
