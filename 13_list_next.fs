@@ -1,14 +1,42 @@
 
+let rec get_odd_with_accum = function
+  | (head :: tail, currentRound, maxRound, accumulator) when currentRound < maxRound -> 
+    if(currentRound % 2 = 1)  
+    then get_odd_with_accum(tail, currentRound+1, maxRound, head :: accumulator)
+    else get_odd_with_accum(tail, currentRound+1, maxRound, accumulator)
+  | ([head], currentRound, maxRound, accumulator) -> 
+    if(currentRound % 2 = 1)  
+    then head :: accumulator
+    else accumulator
+  | ([ ], currentRound, maxRound, accumulator) -> 
+    accumulator
+    
+// Оставить только значения на нечетных позициях
 let rec rmodd = function
   | [] -> []
-  | [x] -> []
-  | first :: (second :: tail) -> second :: (rmodd tail)
+  | list -> 
+    let odd_item_list = get_odd_with_accum (list, 0, (List.length list), [])
+	List.rev odd_item_list
 
 
-let rec del_even = function
+
+let rec del_even_with_accum = function
+  | (head :: tail, accumulator) -> 
+    if(head % 2 = 1)  
+    then del_even_with_accum(tail, head :: accumulator)
+    else del_even_with_accum(tail, accumulator)
+  | ([head], accumulator) -> 
+    if(head % 2 = 1)  
+    then head :: accumulator
+    else accumulator
+  | ([ ], accumulator) -> 
+    accumulator
+// Вернуть только нечетные значения 
+let rec del_even =  function
   | [] -> []
-  | head :: tail when (head % 2 = 0) -> (del_even tail)
-  | head :: tail -> head :: (del_even tail)
+  | list -> 
+    let odd_item_list = del_even_with_accum (list, [])
+    List.rev odd_item_list
 
 
 let rec multiplicity x xs = match xs with
