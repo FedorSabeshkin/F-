@@ -18,8 +18,6 @@ let rec rmodd = function
     let odd_item_list = get_odd_with_accum (list, 0, (List.length list), [])
 	List.rev odd_item_list
 
-
-
 let rec del_even_with_accum = function
   | (head :: tail, accumulator) -> 
     if(head % 2 = 1)  
