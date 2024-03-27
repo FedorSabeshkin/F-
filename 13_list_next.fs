@@ -29,6 +29,7 @@ let rec del_even_with_accum = function
     else accumulator
   | ([ ], accumulator) -> 
     accumulator
+    
 // Вернуть только нечетные значения 
 let rec del_even =  function
   | [] -> []
@@ -36,11 +37,23 @@ let rec del_even =  function
     let odd_item_list = del_even_with_accum (list, [])
     List.rev odd_item_list
 
-
+let rec multiplicity_with_accum = function
+  | (search_value, head :: tail, amount) -> 
+    if(head = search_value)  
+    then multiplicity_with_accum(search_value, tail, amount+1)
+    else multiplicity_with_accum(search_value, tail, amount)
+  | (search_value, [head], amount) -> 
+    if(head = search_value)  
+    then amount + 1
+    else amount
+  | (search_value, [ ], amount) -> 
+    amount
+    
+// Вычисляет число повторений элемента "x" в списке "xs"
 let rec multiplicity x xs = match xs with
   | [] -> 0
-  | head :: tail when (head = x) -> 1 + (multiplicity x tail)
-  | _ :: tail -> multiplicity x tail
+  | _  -> 
+    multiplicity_with_accum (x, xs, 0)
 
 
 let rec split = function
