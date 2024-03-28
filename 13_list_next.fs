@@ -55,13 +55,23 @@ let rec multiplicity x xs = match xs with
   | _  -> 
     multiplicity_with_accum (x, xs, 0)
 
+let rec split_with_accum = function
+  | (head :: tail, currentRound, maxRound, first_list, second_list) when currentRound < maxRound -> 
+    if(currentRound % 2 = 1)  
+    then split_with_accum(tail, currentRound+1, maxRound, first_list, head :: second_list)
+    else split_with_accum(tail, currentRound+1, maxRound, head :: first_list, second_list)
+  | ([head], currentRound, maxRound, first_list, second_list) -> 
+    if(currentRound % 2 = 1)  
+    then (List.rev first_list, List.rev (head :: second_list))
+    else (List.rev (head :: first_list), List.rev second_list)
+  | ([], currentRound, maxRound, first_list, second_list) -> 
+    ( List.rev first_list, List.rev second_list)
 
 let rec split = function
   | [] -> ([], [])
   | [x] -> ([x], [])
-  | first :: (second :: tail) ->
-        let (a, b) = split tail
-        (first :: a, second :: b)
+  | list -> 
+    split_with_accum (list, 0, (List.length list), [], [])
 
 
 let rec zip = function
