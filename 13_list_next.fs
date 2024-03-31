@@ -74,7 +74,16 @@ let rec split = function
     split_with_accum (list, 0, (List.length list), [], [])
 
 
+exception ListNotEqualsSize
+
+let rec zip_with_accum = function
+  | (head_1 :: tail_1 , head_2 :: tail_2, accumulator) ->
+      zip_with_accum(tail_1, tail_2, (head_1, head_2) :: accumulator)
+  | (_, _, accumulator) -> 
+    List.rev accumulator
+    
 let rec zip = function
   | ([], []) -> []
-  | (h1 :: t1, h2 :: t2) -> (h1, h2) :: zip(t1, t2)
-  | _ -> failwith "different lengths"
+  | (xs1,xs2) when (List.length xs1 = List.length xs2) -> 
+    zip_with_accum (xs1,xs2, [])
+  | (xs1,xs2) -> raise ListNotEqualsSize
