@@ -1,8 +1,29 @@
-let sum (p, xs) =
-    let rec iter (s, a) = match s with
-        | [] -> a
-        | head :: tail -> iter (tail, if (p head) then a + head else a)
-    iter (xs, 0)
+// Прибавляем число к аккамулятору, 
+// если предикат для числа верен.
+let nextAccum = function 
+  | (p, head, accumulator) ->
+    if (p (head))
+    then  
+      accumulator + head
+    else
+      accumulator
+      
+      
+let rec sum_with_acc = function 
+  | (p, [head], accumulator) ->
+    nextAccum(p, head, accumulator)
+  | (p, head :: tail, accumulator) ->
+    let nextAccumulator = nextAccum(p, head, accumulator)
+    sum_with_acc (p, tail, nextAccumulator)
+   | (_, [], 0) ->
+     0
+
+// Сумма всех элементов списка удовлетворяющих предикату
+let rec sum = function 
+  | (p, []) ->
+    0
+  | (p, xs) ->
+    sum_with_acc (p, xs, 0)
 
 
 let count (xs, n) =
