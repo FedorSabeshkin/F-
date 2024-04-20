@@ -26,12 +26,41 @@ let rec sum = function
     sum_with_acc (p, xs, 0)
 
 
-let count (xs, n) =
-    let rec iter (s, a) = match s with
-        | [] -> a
-        | head :: tail when (head > n) -> a
-        | head :: tail -> iter(tail, if head = n then a + 1 else a)
-    iter (xs, 0)
+
+// Прибавляем 1 к аккамулятору, 
+// если предикат для числа верен.
+let nextAccum = function 
+  | (p, head, target, accumulator) ->
+    if (p (head, target))
+    then  
+      accumulator + 1
+    else
+      accumulator
+      
+      
+let rec count_with_acc = function 
+  | (p, [head], target, accumulator) ->
+    let nextAccumulator = nextAccum(p, head, target, accumulator)
+    nextAccumulator
+  | (p, head :: tail, target, accumulator) ->
+    let nextAccumulator = nextAccum(p, head, target, accumulator)
+    if nextAccumulator>0 && not (p (head, target))
+    then
+      nextAccumulator
+    else
+      count_with_acc (p, tail, target, nextAccumulator)
+   | (_, [], target, _) ->
+     0
+
+// предикат эквивалентности двух чисел
+let eq_number (current, target) = current = target
+
+// подсчитывает количество вхождений числа в слабо восходящям списке
+let rec count = function 
+  | ([], target) ->
+    0
+  | (xs, target) ->
+    count_with_acc (eq_number, xs, target, 0)
 
 
 let insert (xs, n) =
