@@ -11,7 +11,5 @@ let fac_seq = Seq.initInfinite (
 
 let even_sign i = 2 * (i % 2) - 1
 
-let seq_seq = Seq.initInfinite (fun i ->
-    if i = 0 then 0
-    else ((i + 1) / 2) * (even_sign (i + 1))
+let seq_seq = Seq.initInfinite (fun n -> if n % 2 = 0 then n/2 else (-1) * (n + 1)/2)
 )
