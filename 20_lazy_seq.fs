@@ -10,7 +10,8 @@ let fac_seq_raw = Seq.initInfinite (
         // call rec funbc with default value for accamulator = 1.    
         iter i 1
 )
-// cache values for reach func
+
+// cache values for reach calculation
 let fac_seq = Seq.cache fac_seq_raw
 
 let seq_seq = Seq.initInfinite (fun n -> if n % 2 = 0 then n/2 else (-1) * (n + 1)/2)
