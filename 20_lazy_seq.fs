@@ -1,15 +1,10 @@
+let even_seq = Seq.initInfinite (fun i -> (i+1)*2)
 
-let even_seq = Seq.initInfinite (fun i -> (i + 1) * 2)
-
-let fac_seq = Seq.initInfinite (
-    fun i -> 
-        let rec iter n acc =
-            if n <= 1 then acc
-            else iter (n - 1) (n * acc)
-        iter i 1
-)
-
-let even_sign i = 2 * (i % 2) - 1
+let factorial n =
+    let rec f x a =
+        if x <= 1 then a
+        else f (x - 1) (a * x)
+    f n 1
+let fac_seq = Seq.initInfinite factorial
 
 let seq_seq = Seq.initInfinite (fun n -> if n % 2 = 0 then n/2 else (-1) * (n + 1)/2)
-)
