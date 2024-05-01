@@ -4,11 +4,11 @@ let fac_seq_raw = Seq.initInfinite (
     fun i -> 
         // define rec function
         let rec iter n acc =
-            if n <= 1 then acc
+            if n <= 1I then acc
             // use tail recursion for optimization
-            else iter (n - 1) (n * acc)
-        // call rec funbc with default value for accamulator = 1.    
-        iter i 1
+            else iter (n - 1I) (n * acc)
+        // call rec function with default value for accumulator = 1.    
+        iter (bigint i) 1I
 )
 
 // cache values for reach calculation
